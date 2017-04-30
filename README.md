@@ -12,7 +12,7 @@ The goals/steps are the following:
 
 
 [//]: # (Image References)
-[image1]: ./output_image/output_image.png "Output image"
+[image1]: ./output_images/output_image.png "Output image"
 
 
 
