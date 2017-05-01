@@ -4,11 +4,14 @@ from IPython.display import HTML
 from functions import *
 import warnings
 from scipy.ndimage.measurements import label
+from collections import deque
 warnings.filterwarnings("ignore", category=DeprecationWarning) 
 
 clf = pickle.load(open('classifier.sav', 'rb'))
 normalizer = pickle.load(open('normalizer.sav', 'rb'))
 
+
+d = deque(maxlen = 10)
 
 def process_frame(frame):
 	frame = frame.astype(np.float32)/255
@@ -22,8 +25,6 @@ def process_frame(frame):
 		y_valid = clf.predict(X_valid_normalized)
 		if y_valid == 1:
 			true_windows.append(window)
-
-
 
 	small_windows = slide_window(frame, x_start_stop=[600, None], y_start_stop=[420, 600], xy_window=(64, 64), xy_overlap=(0.5, 0.5))
 	for window in small_windows:
@@ -60,30 +61,33 @@ def process_frame(frame):
 	print("Large windows: ", len(large_windows))
 	print("True windows: ", len(true_windows))
 
+	d.append(true_windows)
+
 	heat = np.zeros_like(frame[:,:,0]).astype(np.float)
-	heat = add_heat(heat,true_windows)
-	heat = apply_threshold(heat, 3)
+	for windows in d:
+		heat = add_heat(heat,windows)
+	heat = apply_threshold(heat, 60)
 	heatmap = np.clip(heat, 0, 255)
+
 	labels = label(heatmap)
 	draw_trues = draw_boxes(np.copy(frame), true_windows)
 	draw_image = draw_labeled_boxes(np.copy(frame), labels)
-	#draw_image = draw_image * 255.0 #comment for ind frame
+	draw_image = draw_image * 255.0 #comment for ind frame
 
 
 	return draw_image
 
 
 
+
+
+"""
 test_images = read_images()
 drawn_image = process_frame(test_images[0])
 plt.imshow(drawn_image)
 plt.show()
 
-
-#test_image = test_images[0]
-#test_image_normal = (test_image/255.0).astype(np.float32)
-
-
+"""
 
 
 
