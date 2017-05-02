@@ -1,7 +1,7 @@
 ## Vehicle tracking project
 ---
 ### Introduction 
-Continuing with the self driving car projects, this one is about is about creating a pipeline that looks at dashcam footage and detects and tracks cars. 
+Continuing with the self driving car project, this one is about is about creating a pipeline that looks at dashcam footage and detects and tracks cars. 
 
 The goals/steps are the following:
 * Perform a Histogram of Oriented Gradients (HOG) feature extraction on a labeled training set of images and train a classifier Linear SVM classifier
