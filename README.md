@@ -1,5 +1,5 @@
 ## Vehicle tracking project
----
+
 ### Introduction 
 Continuing with the self driving car project, this one is about is about creating a pipeline that looks at dashcam footage and detects and tracks cars. 
 
